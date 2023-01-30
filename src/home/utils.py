@@ -1,6 +1,6 @@
 from faker import Faker
 
-def get_user_profiles(count=10):
+def get_fake_profiles(count=10):
     fake = Faker()
     user_data = []
 
@@ -15,8 +15,8 @@ def get_user_profiles(count=10):
 
         if "name" in profile:
             fname,lname = profile.get("name").split(" ")[:2]
-            data["fname"] = fname
-            data["lname"] = lname
+            data["first_name"] = fname
+            data["last_name"] = lname
         
         user_data.append(data)
 
