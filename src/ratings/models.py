@@ -35,6 +35,3 @@ class Rating(models.Model):
     active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True) #auto_now_add will set the time when an instance is created 
     objects = RatingManager()
-
-
-
