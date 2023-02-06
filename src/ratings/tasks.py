@@ -1,7 +1,7 @@
 import random
 from django.contrib.auth import get_user_model
 from movies.models import Movie
-
+from django.contrib.contenttypes.models import ContentType
 from .models import Rating, RatingChoice
 
 User = get_user_model()

@@ -44,4 +44,6 @@ class Movie(models.Model):
         return self.rating_avg
 
     def __str__(self):
-        return self.title
+        if not self.release_date:
+            return self.title
+        return f"{self.title} ({self.release_date.year})"

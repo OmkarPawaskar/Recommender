@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Avg
+from django.db.models.signals import post_save
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 
 User = settings.AUTH_USER_MODEL
 # Create your models here.
@@ -33,5 +35,25 @@ class Rating(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
     active = models.BooleanField(default=True)
+    active_update_timestamp = models.DateTimeField(auto_now_add=False, auto_now=False, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True) #auto_now_add will set the time when an instance is created 
     objects = RatingManager()
+
+    class Meta:
+        ordering = ['-timestamp']
+
+def ratings_post_save(sender, instance, created, *args, **kwargs):
+    if created:
+        _id = instance.id
+        if instance.active:
+            qs = Rating.objects.filter(
+                content_type = instance.content_type,
+                object_id = instance.object_id,
+                user = instance.user
+            ).exclude(id=_id, active=True)
+        
+        if qs.exists():
+            qs = qs.exclude(active_update_timestamp__is_null=False)
+            qs.update(active=False, active_update_timestamp=timezone.now())
+
+post_save.connect(ratings_post_save, sender=Rating)
