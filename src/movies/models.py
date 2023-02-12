@@ -37,6 +37,9 @@ class Movie(models.Model):
     rating_avg = models.DecimalField(decimal_places=2, max_digits=5, blank=True, null=True) #5.00, 0d.00
     objects = MovieManager()
 
+    def get_absolute_url(self):
+        return f"/movies/{self.id}/"
+
     def rating_avg_display(self):
         now = timezone.now()
         if not self.rating_last_updated:
