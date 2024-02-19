@@ -7,4 +7,4 @@ class MovieAdmin(admin.ModelAdmin):
     readonly_fields = ['rating_avg', 'rating_count', 'rating_avg_display']
 
 
-admin.site.register(Movie, MovieAdmin)
+admin.site.register(Movie, MovieAdmin)  
