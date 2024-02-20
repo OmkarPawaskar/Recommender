@@ -24,7 +24,7 @@ DATA_DIR = BASE_DIR / "data"
 SECRET_KEY = 'django-insecure-@^f6nnr234534dfgfvb$^Y&@dfsj&v=09yc%#rg+2m1@&=_5bas!h%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DJANGO_DEBUG', default=0, cast=bool) #True/False
+DEBUG = config('DJANGO_DEBUG', default=1, cast=bool) #True/False
 
 ALLOWED_HOSTS = []
 
@@ -66,12 +66,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'home.urls'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
-CELERY_BROKER_URL = config('CELERY_BROKER_REDIS_URL', default='redis://localhost:6379')
+CELERY_BROKER_URL = config('CELERY_BROKER_REDIS_URL', default='redis://localhost:6380')
 CELERY_RESULT_BACKEND = 'django-db'
 
 TEMPLATES = [
