@@ -1,3 +1,4 @@
+from django.apps import apps
 from django.conf import settings
 from django.db import models
 from django.db.models import Avg
@@ -20,6 +21,15 @@ class RatingChoice(models.IntegerChoices):
 class RatingQuerySet(models.QuerySet):
     def avg(self):
         return self.aggregate(average=Avg('value'))['average']
+    
+    def movies(self):
+        Movie = apps.get_model('movies','Movie')
+        ctype = ContentType.objects.get_for_model(Movie)
+        return self.filter(active=True, content_type = ctype)
+    
+    def as_object_dict(self, object_ids=[]):
+        qs = self.filter(object_id__in = object_ids)
+        return {f"{x.object_id}" : x.value for x in qs}
 
 class RatingManager(models.Manager):
     def get_queryset(self):
@@ -27,6 +37,9 @@ class RatingManager(models.Manager):
 
     def avg(self):
         return self.get_queryset().avg()
+    
+    def movies(self):
+        return self.get_queryset().movies( )
 
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
