@@ -1,5 +1,3 @@
-from typing import Any
-from django.db.models.query import QuerySet
 from django.views import generic
 
 # Create your views here.
@@ -71,3 +69,18 @@ class MovieDetailView(generic.ListView):
 
 movie_detail_view = MovieDetailView.as_view()
 
+class MovieInfiniteRatingView(MovieDetailView):
+    def get_object(self):
+        user= self.request.user
+         # exclude_ids = []
+        # if user.is_authenticated:
+        #     exclude_ids = [x.object_id for x in user.rating_set.filter(active=True)]
+        return Movie.objects.all().order_by("?").first() #randomizes the order of the retrieved objects.
+    
+    def get_template_names(self):
+        request = self.request
+        if request.htmx:
+             return ['movies/snippet/infinite.html']
+        return ['movies/infinite-view.html']
+    
+movie_infinite_rating_view = MovieInfiniteRatingView.as_view()
