@@ -16,6 +16,10 @@ app.conf.beat_schedule = {
         'task' : 'task_update_movie_ratings',
         'schedule' : 60*30, #30 mins
         'kwargs' : {"count" : "20_000"}
+    },
+    "run_rating_export_every_hour": {
+        'task' : 'export_rating_dataset',
+        'schedule' : 60*60, #1hr
     }
 }
 
