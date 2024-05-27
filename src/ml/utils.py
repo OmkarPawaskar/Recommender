@@ -63,6 +63,6 @@ def load_model(model_type='surprise', model_ext='pkl'):
     model = None
     if path_latest.exists():
         with open(path_latest, 'rb') as f:
-            model_data = pickle.load(path_latest)
+            model_data = pickle.load(f)
             model = model_data.get('model')
     return model
