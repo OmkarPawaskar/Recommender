@@ -21,7 +21,7 @@ def rate_movie_view(request):
     if user.is_authenticated:
         message = "<span class='bg-danger text-light py-1 px-3 rounded'>An error occured.</div>"
         ctype = ContentType.objects.get(app_label='movies', model='movie')
-        rating_obj = Rating.object.create(content_type=ctype, object_id=object_id, value=rating_value, user=user)
+        rating_obj = Rating.objects.create(content_type=ctype, object_id=object_id, value=rating_value, user=user)
         if rating_obj.content_object is not None:
             total_new_suggestions = request.session.get("total-new-suggestions") or 0
             items_rated = request.session.get('items-rated') or 0

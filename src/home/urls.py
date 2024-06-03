@@ -22,7 +22,7 @@ from ratings import views as ratings_views
 urlpatterns = [
     path("", dashboard_views.home_view),
     path('admin/', admin.site.urls),
-    path('accounts', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
     path('movies/', include('movies.urls')),
     path('rate/movie/', ratings_views.rate_movie_view)
 ]
