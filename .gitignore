@@ -1,6 +1,7 @@
 src/local-cdn/
 src/data/
 model.pkl
+web-app-server.pem
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,6 +1,31 @@
 version: '3.9'
 
 services:
+    django:
+      build:
+        context: . #directory containing the Dockerfile.
+        dockerfile: Dockerfile
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/src
+        - ./data:/src/ #SQLite database file is stored in a directory on the host machine (./data) and is accessible in the container at /src/.
+      ports:
+        - "8080:8000"
+      depends_on:
+        - redis
+      environment:
+        - DEBUG=1 
+      
+    celery:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      command: celery -A src worker --loglevel=info
+      volumes:
+        - .:/src
+      depends_on:
+        -  redis
+    
     redis:
       image: redis
       restart: always
